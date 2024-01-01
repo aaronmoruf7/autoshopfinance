@@ -1,69 +1,16 @@
-import sqlite3
-import os
-from flask import (
-    Flask,
-    flash,
-    redirect,
-    render_template,
-    request,
-    session,
-    make_response,
-)
-from flask_session import Session
+
+from flask import (flash, redirect, render_template, request, session, make_response, Blueprint)
 from werkzeug.security import check_password_hash, generate_password_hash
-from forms import (
-    LoginForm,
-    RegistrationForm,
-    ChangePasswordForm,
-    IncomeForm,
-    ExpenseForm,
-    CustomerForm,
-)
-from flask import Flask, render_template, request, make_response
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from .forms import (LoginForm, RegistrationForm, ChangePasswordForm, IncomeForm, ExpenseForm, CustomerForm,)
 import pdfkit
-
 from sqlalchemy import func, case, DateTime, cast
-
-
-from helpers import (
+from .helpers import (
     login_required,
     calculate_financial_summary,
-    usd,
-    format_number_with_commas,
-    format_number_with_commas_no_decimal,init_app
 )
+from .models import db, User, Transaction, Customer  
 
-from models import db, User, Transaction, Customer  
-
-# Configure application
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
-app.config['SECRET_KEY'] = '1234567'
-#export DATABASE_URL=postgresql://autoshopfinance_user:3vRhG78iSkEti5zAUgtnyU8A8ahLs00K@dpg-cm7gl4nqd2ns73f3ordg-a.ohio-postgres.render.com/autoshopfinance
-
-# Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db.init_app(app)  # Initialize SQLAlchemy with the Flask app
-
-# Initialize Flask-Migrate
-migrate = Migrate(app, db)
-Session(app)
-
-app.jinja_env.filters["formatNumberWithCommas"] = format_number_with_commas
-
-app.jinja_env.filters[
-    "formatNumberWithCommasNoDecimal"
-] = format_number_with_commas_no_decimal
-
-
-# Custom filter
-app.jinja_env.filters["usd"] = usd
-
+app = Blueprint('app', __name__)
 
 @app.after_request
 def after_request(response):
@@ -543,11 +490,3 @@ def delete_customer():
 
     # Redirect back to the income page
     return redirect("/customers")
-
-# Ensure database is closed after each request
-# init_app(app)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-    # app.run(use_debugger=True, use_reloader=True)

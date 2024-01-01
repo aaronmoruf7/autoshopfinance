@@ -1,24 +1,8 @@
 from functools import wraps
-from flask import session, redirect, g
-import sqlite3
-from models import db, User, Transaction, Customer 
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import case, cast, String, func, text, Date, extract
+from flask import session, redirect
+from .models import db, Transaction 
+from sqlalchemy import  cast, func, Date, extract
 from datetime import datetime
-
-
-from datetime import datetime
-
-
-# def get_db():
-#     if "db" not in g:
-#         g.db = sqlite3.connect(DATABASE)
-#         g.db.row_factory = sqlite3.Row
-#     return g.db
-
-# def close_db(error):
-#     if hasattr(g, "db"):
-#         g.db.close()
 
 
 def login_required(f):
@@ -91,6 +75,7 @@ def format_number_with_commas(value):
 
 def format_number_with_commas_no_decimal(value):
     return "{:,.0f}".format(float(value))
+
 
 def init_app(app):
     db.init_app(app)

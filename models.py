@@ -1,8 +1,6 @@
-# models.py
-
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Text, Float, DateTime
+from sqlalchemy import Column, DateTime
 
 db = SQLAlchemy()
 
