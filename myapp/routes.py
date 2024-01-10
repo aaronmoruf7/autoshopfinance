@@ -356,6 +356,7 @@ def delete_expense():
 def generate_receipt():
     if request.method == "POST":
         # Retrieve data from the form
+        invoice_number = request.form.get("invoice_number")
         customer_name = request.form.get("customer_name")
         customer_email = request.form.get("customer_email")
         customer_address = request.form.get("customer_address")
@@ -389,6 +390,7 @@ def generate_receipt():
         # Generate HTML for receipt
         receipt_template = render_template(
             "receipt_template.html",
+            invoice_number=invoice_number,
             customer_name=customer_name,
             customer_email=customer_email,
             customer_address=customer_address,

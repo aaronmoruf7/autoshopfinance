@@ -36,11 +36,12 @@
                 margin-bottom: 5px;
             }
 
-            .receipt-title {
+            .receipt-title h2 {
                 font-size: 20px;
                 font-weight: bold;
                 text-decoration: underline;
                 margin-bottom: 15px;
+                text-align: right;
             }
 
             .footer {
@@ -67,7 +68,7 @@
         </div>
 
         <div class="receipt-title">
-            <h2>Receipt</h2>
+            <h2>Invoice No.{{ invoice_number }}</h2>
         </div>
 
 
@@ -138,6 +139,15 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="payment-info" style="text-align: right;">
+            <p><strong>Payment Options:</strong></p>
+            <p><strong>Cash OR Cheques Payable To:</strong> Sayeed Moruf</p>
+            <p><strong>OR Online Transfer:</strong></p>
+            <p>Republic Bank Limited: Starlite. Diego Martin</p>
+            <p>Chq Account # 4401 8214 0901</p>
+
+        </div>
 
 
     </body>
